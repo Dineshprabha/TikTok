@@ -2,10 +2,25 @@ name : Android Build
 
 on:
   pull_request:
-    branches: ["master"]
+    branches: [ master ]
   push:
-    branches: ["master"]
+    branches: [ master ]
 
 jobs:
   build:
-    runs-on:
+    runs-on: ubuntu-latest
+    steps:
+      - name : Checkout
+        uses: actions/checkout@v4.1.7
+
+      - name : Setup Java JDK
+        uses: actions/setup-java@v4.2.2
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.2.1-node20
+        with:
+          name: TikTok.apk
+          path: app/build/outputs/apk/app-debug.apk
